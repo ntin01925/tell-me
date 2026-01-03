@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>tell me</title>
+
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0b0b0b, #8b0000);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+      color: white;
+      padding: 20px;
+    }
+
+    .container {
+      background: rgba(0,0,0,0.85);
+      padding: 25px;
+      border-radius: 12px;
+      max-width: 420px;
+      width: 100%;
+      box-shadow: 0 0 25px rgba(196,0,0,0.6);
+    }
+
+    .question {
+      text-align: center;
+      font-size: 1.2rem;
+      color: #c40000;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+
+    input, button {
+      width: 100%;
+      padding: 14px;
+      font-size: 1rem;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+
+    input {
+      background: #0b0b0b;
+      border: 2px solid #c40000;
+      color: white;
+      outline: none;
+    }
+
+    button {
+      border: none;
+      background: #c40000;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .result {
+      text-align: center;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="question">
+    Will you gave me your @ss-hole 🐻🐻
+  </div>
+
+  <input id="answer" placeholder="Type yes or no" />
+
+  <button onclick="checkAnswer()">Check</button>
+
+  <div class="result" id="result"></div>
+
+  <!-- Hidden audio -->
+  <audio id="happy" src="happy.mpeg"></audio>
+  <audio id="sad" src="sad.mp3"></audio>
+</div>
+
+<script>
+  function checkAnswer() {
+    const input = document.getElementById("answer").value
+      .toLowerCase()
+      .trim();
+
+    const result = document.getElementById("result");
+    const happyaudio = document.getElementById("happy");
+        const sadaudio = document.getElementById("sad");
+
+    if (input === "yes") {
+      result.textContent = "Bawarchi khush huaye 💀🍷🍷";
+      result.style.color = "#00ff88";
+       happyaudio.currentTime = 0;
+      happyaudio.play();
+  //    audio.pause();
+//      audio.currentTime = 0;
+    } 
+    else if (input === "no") {
+      result.textContent = "fuck you!!!";
+      result.style.color = "#ff3b3b";
+      sadaudio.currentTime = 0;
+      sadaudio.play();
+    } 
+    else {
+      result.textContent = "Please type only yes or no.";
+      result.style.color = "#ffaa00";
+      audio.pause();
+      audio.currentTime = 0;
+    }
+  }
+</script>
+
+</body>
+</html>
