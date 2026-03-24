@@ -1,119 +1,177 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>tell me</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>tell me</title>
 
-  <style>
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: linear-gradient(135deg, #0b0b0b, #8b0000);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: Arial, sans-serif;
-      color: white;
-      padding: 20px;
-    }
+    <!-- ✅ EmailJS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
-    .container {
-      background: rgba(0,0,0,0.85);
-      padding: 25px;
-      border-radius: 12px;
-      max-width: 420px;
-      width: 100%;
-      box-shadow: 0 0 25px rgba(196,0,0,0.6);
-    }
+    <script>
+      (function () {
+        emailjs.init("V6DNmhoM7eZn6G6Pd");
+      })();
+    </script>
 
-    .question {
-      text-align: center;
-      font-size: 1.2rem;
-      color: #c40000;
-      margin-bottom: 20px;
-      font-weight: bold;
-    }
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #0b0b0b, #8b0000);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: Arial, sans-serif;
+        color: white;
+        padding: 20px;
+      }
 
-    input, button {
-      width: 100%;
-      padding: 14px;
-      font-size: 1rem;
-      border-radius: 8px;
-      margin-bottom: 15px;
-    }
+      .container {
+        background: rgba(0, 0, 0, 0.85);
+        padding: 25px;
+        border-radius: 12px;
+        max-width: 420px;
+        width: 100%;
+        box-shadow: 0 0 25px rgba(196, 0, 0, 0.6);
+      }
 
-    input {
-      background: #0b0b0b;
-      border: 2px solid #c40000;
-      color: white;
-      outline: none;
-    }
+      .question {
+        text-align: center;
+        font-size: 1.2rem;
+        color: #c40000;
+        margin-bottom: 20px;
+        font-weight: bold;
+      }
 
-    button {
-      border: none;
-      background: #c40000;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-    }
+      input,
+      button {
+        width: 100%;
+        padding: 14px;
+        font-size: 1rem;
+        border-radius: 8px;
+        margin-bottom: 15px;
+      }
 
-    .result {
-      text-align: center;
-      margin-top: 10px;
-    }
-  </style>
-</head>
-<body>
+      input {
+        background: #0b0b0b;
+        border: 2px solid #c40000;
+        color: white;
+        outline: none;
+      }
 
-<div class="container">
-  <div class="question">
-    would you feed us chicken
-  </div>
+      button {
+        border: none;
+        background: #c40000;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+      }
 
-  <input id="answer" placeholder="Type yes or no" />
+      .result {
+        text-align: center;
+        margin-top: 10px;
+      }
 
-  <button onclick="checkAnswer()">Check</button>
+      /* 🔥 POPUP STYLE */
+      #popup {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        justify-content: center;
+        align-items: center;
+      }
 
-  <div class="result" id="result"></div>
+      #popupBox {
+        background: #111;
+        padding: 20px;
+        border-radius: 10px;
+        width: 300px;
+        text-align: center;
+      }
+    </style>
+  </head>
 
-  <!-- Hidden audio -->
-  <audio id="happy" src="happy.mpeg"></audio>
-  <audio id="sad" src="sad.mp3"></audio>
-</div>
+  <body>
+    <div class="container">
+      <div class="question">would you feed us chicken</div>
 
-<script>
-  function checkAnswer() {
-    const input = document.getElementById("answer").value
-      .toLowerCase()
-      .trim();
+      <input id="answer" placeholder="Type yes or no" />
 
-    const result = document.getElementById("result");
-    const happyaudio = document.getElementById("happy");
+      <button onclick="openPopup()">Check</button>
+
+      <div class="result" id="result"></div>
+
+      <audio id="happy" src="happy.mpeg"></audio>
+      <audio id="sad" src="sad.mp3"></audio>
+    </div>
+
+    <!-- 🔥 POPUP -->
+    <div id="popup">
+      <div id="popupBox">
+        <h3>Enter Details</h3>
+
+        <input id="name" placeholder="Your Name" />
+        <input id="city" placeholder="Your City" />
+
+        <button onclick="submitData()">Submit</button>
+      </div>
+    </div>
+
+    <script>
+      function openPopup() {
+        document.getElementById("popup").style.display = "flex";
+      }
+
+      function submitData() {
+        const name = document.getElementById("name").value;
+        const city = document.getElementById("city").value;
+        const answer = document
+          .getElementById("answer")
+          .value.toLowerCase()
+          .trim();
+
+        // ✅ SEND EMAIL
+        emailjs
+          .send("service_fb7yvfc", "template_h309p5d", {
+            name: name,
+            city: city,
+            answer: answer,
+          })
+          .then(
+            function (response) {
+              console.log("SUCCESS!", response.status, response.text);
+            },
+            function (error) {
+              console.log("FAILED...", error);
+            },
+          );
+
+        document.getElementById("popup").style.display = "none";
+
+        const result = document.getElementById("result");
+        const happyaudio = document.getElementById("happy");
         const sadaudio = document.getElementById("sad");
 
-    if (input === "yes") {
-      result.textContent = "बहुत बहुत धन्यवाद🍷🍷";
-      result.style.color = "#00ff88";
-       happyaudio.currentTime = 0;
-      happyaudio.play();
-  //    audio.pause();
-//      audio.currentTime = 0;
-    } 
-    else if (input === "no") {
-      result.textContent = "fuck you!!!";
-      result.style.color = "#ff3b3b";
-      sadaudio.currentTime = 0;
-      sadaudio.play();
-    } 
-    else {
-      result.textContent = `bhnklode "yes" ya "no" dal sirf.`;
-      result.style.color = "#ffaa00";
-      audio.pause();
-      audio.currentTime = 0;
-    }
-  }
-</script>
-
-</body>
+        if (answer === "yes") {
+          result.textContent = "बहुत बहुत धन्यवाद🍷🍷";
+          result.style.color = "#00ff88";
+          happyaudio.currentTime = 0;
+          happyaudio.play();
+        } else if (answer === "no") {
+          result.textContent = "fuck you!!!";
+          result.style.color = "#ff3b3b";
+          sadaudio.currentTime = 0;
+          sadaudio.play();
+        } else {
+          result.textContent = "type yes or no only";
+          result.style.color = "#ffaa00";
+        }
+      }
+    </script>
+  </body>
 </html>
