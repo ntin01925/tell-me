@@ -1,177 +1,188 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>tell me</title>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>tell me</title>
 
-    <!-- ✅ EmailJS CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <!-- EmailJS -->
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script>
+    (function () {
+      emailjs.init("V6DNmhoM7eZn6G6Pd"); // ✅ tumhari public key
+    })();
+  </script>
 
-    <script>
-      (function () {
-        emailjs.init("V6DNmhoM7eZn6G6Pd");
-      })();
-    </script>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0b0b0b, #8b0000);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial;
+      color: white;
+    }
 
-    <style>
-      body {
-        margin: 0;
-        min-height: 100vh;
-        background: linear-gradient(135deg, #0b0b0b, #8b0000);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-family: Arial, sans-serif;
-        color: white;
-        padding: 20px;
-      }
+    .container {
+      background: rgba(0,0,0,0.85);
+      padding: 25px;
+      border-radius: 12px;
+      max-width: 420px;
+      width: 100%;
+      box-shadow: 0 0 25px rgba(196,0,0,0.6);
+    }
 
-      .container {
-        background: rgba(0, 0, 0, 0.85);
-        padding: 25px;
-        border-radius: 12px;
-        max-width: 420px;
-        width: 100%;
-        box-shadow: 0 0 25px rgba(196, 0, 0, 0.6);
-      }
+    .question {
+      text-align: center;
+      font-size: 1.2rem;
+      color: #c40000;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
 
-      .question {
-        text-align: center;
-        font-size: 1.2rem;
-        color: #c40000;
-        margin-bottom: 20px;
-        font-weight: bold;
-      }
+    input, button {
+      width: 100%;
+      padding: 14px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
 
-      input,
-      button {
-        width: 100%;
-        padding: 14px;
-        font-size: 1rem;
-        border-radius: 8px;
-        margin-bottom: 15px;
-      }
+    input {
+      background: #0b0b0b;
+      border: 2px solid #c40000;
+      color: white;
+    }
 
-      input {
-        background: #0b0b0b;
-        border: 2px solid #c40000;
-        color: white;
-        outline: none;
-      }
+    button {
+      border: none;
+      background: #c40000;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
 
-      button {
-        border: none;
-        background: #c40000;
-        color: white;
-        font-weight: bold;
-        cursor: pointer;
-      }
+    .result {
+      text-align: center;
+    }
 
-      .result {
-        text-align: center;
-        margin-top: 10px;
-      }
+    #upiLink {
+      display: none;
+    }
 
-      /* 🔥 POPUP STYLE */
-      #popup {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.8);
-        justify-content: center;
-        align-items: center;
-      }
+    /* Popup */
+    #popup {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      justify-content: center;
+      align-items: center;
+    }
 
-      #popupBox {
-        background: #111;
-        padding: 20px;
-        border-radius: 10px;
-        width: 300px;
-        text-align: center;
-      }
-    </style>
-  </head>
+    #popupBox {
+      background: #111;
+      padding: 20px;
+      border-radius: 10px;
+      width: 300px;
+    }
+  </style>
+</head>
 
-  <body>
-    <div class="container">
-      <div class="question">would you feed us chicken</div>
+<body>
 
-      <input id="answer" placeholder="Type yes or no" />
+<div class="container">
+  <div class="question">would you give me some money 💵💷</div>
 
-      <button onclick="openPopup()">Check</button>
+  <input id="answer" placeholder="Type yes or no" />
 
-      <div class="result" id="result"></div>
+  <button onclick="openPopup()">Check</button>
 
-      <audio id="happy" src="happy.mpeg"></audio>
-      <audio id="sad" src="sad.mp3"></audio>
-    </div>
+  <div class="result" id="result"></div>
 
-    <!-- 🔥 POPUP -->
-    <div id="popup">
-      <div id="popupBox">
-        <h3>Enter Details</h3>
+  <!-- 🔥 PAYMENT BUTTON -->
+  <a id="upiLink" href="#">
+    <button>Pay Now</button>
+  </a>
 
-        <input id="name" placeholder="Your Name" />
-        <input id="city" placeholder="Your City" />
+  <audio id="happy" src="happy.mpeg"></audio>
+  <audio id="sad" src="sad.mp3"></audio>
+</div>
 
-        <button onclick="submitData()">Submit</button>
-      </div>
-    </div>
+<!-- Popup -->
+<div id="popup">
+  <div id="popupBox">
+    <h3>Enter Details</h3>
 
-    <script>
-      function openPopup() {
-        document.getElementById("popup").style.display = "flex";
-      }
+    <input id="name" placeholder="Your Name" />
+    <input id="city" placeholder="Your City" />
 
-      function submitData() {
-        const name = document.getElementById("name").value;
-        const city = document.getElementById("city").value;
-        const answer = document
-          .getElementById("answer")
-          .value.toLowerCase()
-          .trim();
+    <button onclick="submitData()">Submit</button>
+  </div>
+</div>
 
-        // ✅ SEND EMAIL
-        emailjs
-          .send("service_fb7yvfc", "template_h309p5d", {
-            name: name,
-            city: city,
-            answer: answer,
-          })
-          .then(
-            function (response) {
-              console.log("SUCCESS!", response.status, response.text);
-            },
-            function (error) {
-              console.log("FAILED...", error);
-            },
-          );
+<script>
+function openPopup() {
+  document.getElementById("popup").style.display = "flex";
+}
 
-        document.getElementById("popup").style.display = "none";
+function submitData() {
+  const name = document.getElementById("name").value.trim();
+  const city = document.getElementById("city").value.trim();
+  const answer = document.getElementById("answer").value.toLowerCase().trim();
 
-        const result = document.getElementById("result");
-        const happyaudio = document.getElementById("happy");
-        const sadaudio = document.getElementById("sad");
+  if (!name || !city) {
+    alert("Enter name and city");
+    return;
+  }
 
-        if (answer === "yes") {
-          result.textContent = "बहुत बहुत धन्यवाद🍷🍷";
-          result.style.color = "#00ff88";
-          happyaudio.currentTime = 0;
-          happyaudio.play();
-        } else if (answer === "no") {
-          result.textContent = "fuck you!!!";
-          result.style.color = "#ff3b3b";
-          sadaudio.currentTime = 0;
-          sadaudio.play();
-        } else {
-          result.textContent = "type yes or no only";
-          result.style.color = "#ffaa00";
-        }
-      }
-    </script>
-  </body>
+  // Email send
+  emailjs.send("service_fb7yvfc", "template_h309p5d", {
+    name: name,
+    city: city,
+    answer: answer
+  });
+
+  document.getElementById("popup").style.display = "none";
+
+  const result = document.getElementById("result");
+  const link = document.getElementById("upiLink");
+  const happy = document.getElementById("happy");
+  const sad = document.getElementById("sad");
+
+  if (answer === "yes") {
+    result.textContent = "Click below to pay 👇";
+    result.style.color = "#00ff88";
+
+    const upi = "upi://pay?pa=nitin981275@oksbi&pn=Nitin&am=10&cu=INR";
+
+    link.href = upi;
+    link.style.display = "block";
+
+    happy.currentTime = 0;
+    happy.play();
+
+  } else if (answer === "no") {
+    result.textContent = "fuck you!!!";
+    result.style.color = "#ff3b3b";
+
+    link.style.display = "none";
+
+    sad.currentTime = 0;
+    sad.play();
+
+  } else {
+    result.textContent = "type yes or no only";
+    result.style.color = "#ffaa00";
+
+    link.style.display = "none";
+  }
+}
+</script>
+
+</body>
 </html>
