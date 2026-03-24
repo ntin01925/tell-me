@@ -185,8 +185,7 @@ function submitData() {
   result.textContent = "Click below to pay 👇";
   result.style.color = "#00ff88";
 
-  const upi = `upi://pay?pa=9817506079@upi&pn=Nitin&am=${amount}&cu=INR`;
-
+const upi = `upi://pay?pa=9817506079@oksbi&pn=Nitin&am=${amount}&cu=INR`;
   link.href = upi;
   link.style.display = "block";
 
